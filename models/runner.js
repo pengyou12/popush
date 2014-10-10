@@ -77,6 +77,11 @@ function Runner(name, type, src){
 					}}
 				];
 				break;
+			case 'hs':
+				that.script = [
+						{cmd:'ghci', args:[that.name],start:true}
+				];
+				break;
 		}
 	}else{
 		switch(type){
@@ -128,6 +133,12 @@ function Runner(name, type, src){
 					{cmd:'java', args:[that.class], start:true}
 				];
 				break;
+			case 'hs':
+				that.script = [
+					{cmd:'ghci', args:[that.name],start:true}
+				
+				];
+				break;
 		}
 	}
 };
@@ -166,7 +177,9 @@ Runner.prototype.run = function(callback){
 			function step(){
 				if(that.script.length > 0){
 					var s = that.script.shift();
-					that.child = spawn(s.cmd, s.args, {cwd:that.dir});
+					var env2 = process.env;
+					env2.HOME = "/popush/tmp";
+that.child = spawn(s.cmd, s.args, {cwd:that.dir});
 					if(s.start){
 						that.emit('start');
 						that.outLength = 0;

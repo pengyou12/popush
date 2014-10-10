@@ -44,6 +44,12 @@ var app = app || {};
                     name: name,
                     password: pass,
                 });
+                setTimeout(function() {
+                    app.socket.emit('login', {
+                        name: name,
+                        password: pass,
+                    })
+                }, 10);
             }
         },
         /*快捷键回车注册*/
